@@ -11,7 +11,6 @@ const app = new Hono()
             name:accounts.name,
         })
         .from(accounts);
-        
         return c.json({ data });
 });
 
