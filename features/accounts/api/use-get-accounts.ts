@@ -1,3 +1,4 @@
+//This page is for sending the api schema or throwing the error
 import { useQuery } from "@tanstack/react-query";
 import { client } from "@/lib/hono";
 
