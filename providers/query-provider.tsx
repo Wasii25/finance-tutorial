@@ -1,3 +1,9 @@
+/*A query provider in the context of modern web applications (especially React apps using libraries like React Query or Apollo Client) 
+is a mechanism that provides a context for managing and sharing data-fetching logic throughout the application.
+
+The provider folder typically contains code that sets up and manages these providers, 
+making them reusable and centralized for your application's data or state management. */
+
 // In Next.js, this file would be called: app/providers.tsx
 'use client'
 

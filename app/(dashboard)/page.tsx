@@ -1,12 +1,14 @@
 "use client"
 
-import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  
+
   return (
     <div>
-      Home Page
+      <Button>
+        Add an account
+      </Button>
     </div>
   )
 }
