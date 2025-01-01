@@ -52,6 +52,8 @@ export const Navigation = () => {
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                     <Button
+                        variant="outline"
+                        size="sm"
                         className="font-normal bg-white/10 hover:bg-white/20 hover:text-white focus-visible:ring-offset-0 focus-visible:ring-transparent outline-none text-white focus:bg-white/30 transition border-none p-2 rounded"
                     >
                         <Menu className="size-4" />
@@ -85,7 +87,7 @@ export const Navigation = () => {
                     key={route.href}
                     href={route.href}
                     label={route.label}
-                    isActive={pathname.startsWith(route.href)}
+                    isActive={pathname === route.href}
                 />
             ))}
         </nav>

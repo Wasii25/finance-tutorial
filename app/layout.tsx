@@ -11,6 +11,9 @@ import "./globals.css";
 import { QueryProvider } from "@/providers/query-provider";
 import { SheetProvider } from "@/providers/sheet-provider";
 
+import { Toaster } from "sonner";
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -38,7 +41,8 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <QueryProvider>
-              {/* Pass children here to ensure all context is wrapped */}
+            <SheetProvider />
+              <Toaster/>
               {children}
           </QueryProvider>
         </body>

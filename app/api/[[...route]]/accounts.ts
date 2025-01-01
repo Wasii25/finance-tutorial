@@ -37,26 +37,27 @@ const app = new Hono()
             plaidId: true,
             id: true,
             userId: true,
-          })),
-        // zValidator is for validating, zValidator(what are we validating, schema for validation, )
+        })),
         async (c) => {
             const auth = getAuth(c);
             const values = c.req.valid("json");
-
-
-            if(!auth?.userId) {
-                return c.json({ error: "Unauthorised"}, 401);
+    
+            if (!auth?.userId) {
+                return c.json({ error: "Unauthorised" }, 401);
             }
-
+    
             const [data] = await db.insert(accounts).values({
-                // adding [] to const data to make it into const [data] actually destructures data
+                // Adding required fields to the database
                 id: createId(),
                 userId: auth.userId,
-                ...values, 
-            }).returning({});
-
+                ...values, // Spread the validated JSON values into the insert object
+            }).returning({
+                id: accounts.id,
+                name: accounts.name,
+            });
+    
             return c.json({ data });
         }
     )
-
+    
 export default app;
