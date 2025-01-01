@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { HeaderLogo } from "./headerlogo";
 import { Navigation } from "@/components/navigation";
