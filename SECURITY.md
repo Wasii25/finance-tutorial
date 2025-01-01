@@ -1,33 +1,20 @@
----
-
 # Security Policy
-
-## Supported Versions
-
-We currently support the following versions of this project with security updates:
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
-
+---
 ## Reporting a Vulnerability
 
 If you discover a potential security vulnerability, please report it privately through one of the following channels:
 
-- **Email**: [Your email address]
-- **Messaging App**: [Your app name coming soon]
-- **GitHub Issues**: You may open an issue with the security label.
+- **Email**: wasiullahrafeeq.s@gmail.com
+- **Messaging App**: My personal SLACK based app coming soon
+- **GitHub Issues**: You may open any issue from the issues section and proceed to give a candid solution
 
 ### What to Expect:
-- Once we receive a report, we will acknowledge it within 48 hours.
-- We will investigate the issue thoroughly, and if confirmed, we will provide a timeline for a fix.
-- If the vulnerability is accepted, we will release a patch or update as soon as possible.
-- If the issue is declined or if additional information is needed, we will communicate the reasons.
+- Once I receive a report, I will acknowledge it within 48 hours.
+- I will investigate the issue thoroughly, and if confirmed, I will provide a timeline for a fix.
+- If the vulnerability is accepted, I will release a patch or update as soon as possible.
+- If the issue is declined or if additional information is needed, I will communicate the reasons.
 
-Please note that we may share information about the vulnerability in the public repository after it has been resolved.
+Please note that I may share information about the vulnerability in the public repository after it has been resolved.
 
 ## Branch Protection
 
@@ -46,5 +33,3 @@ This repository is licensed under **Creative Commons Zero v1.0 Universal**.
 All contributions should remain professional and respectful. For personal conversations, you may exchange contact details. However, any violations of this policy or the repository's purpose may result in being banned from contributing to further repositories.
 
 ---
-
-You can replace the placeholders with your specific information. This format should be helpful for your GitHub repository's security policy.
