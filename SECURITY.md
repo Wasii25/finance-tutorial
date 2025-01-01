@@ -1,5 +1,3 @@
-Here's an updated security policy with the "Supported Versions" and "Reporting a Vulnerability" sections, based on the template you've provided:
-
 ---
 
 # Security Policy
