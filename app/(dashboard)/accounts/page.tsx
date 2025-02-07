@@ -14,6 +14,7 @@ import {
 
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
+import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete";
 
 //classes for datatable
 import { columns } from "./columns"
@@ -24,6 +25,12 @@ const AccountsPage = () => {
     const newAccouunt = useNewAccount();
     const accountsQuery = useGetAccounts();
     const accounts = accountsQuery.data || [];
+    const deleteAccounts = useBulkDeleteAccounts()
+
+    const isDisabled = 
+        accountsQuery.isLoading ||
+        deleteAccounts.isPending;
+
 
     if(accountsQuery.isLoading){
         return (
@@ -62,8 +69,11 @@ const AccountsPage = () => {
                     columns={columns} 
                     data={accounts} 
                     filterKey={"name"}
-                    onDeleteAction={() => {}}
-                    disabled={false}
+                    onDeleteAction={(row) => {
+                        const ids = row.map((r) => r.original.id);
+                        deleteAccounts.mutate({ json: { ids } });
+                    }}
+                    disabled={isDisabled}
                     />
                 </CardContent>
             </Card>
