@@ -4,18 +4,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@/lib/hono";
 
-type ResponseType = InferResponseType<typeof client.api.accounts[":id"]["patch"]>;
+type ResponseType = InferResponseType<typeof client.api.categories[":id"]["patch"]>;
 
-export const useDeleteAccount = (id?: string) => {
+export const useDeleteCategory = (id?: string) => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation<ResponseType, Error>({
         mutationFn: async () => {
             if (!id) {
-                throw new Error("Account ID is required");
+                throw new Error("Category ID is required");
             }
             
-            const response = await client.api.accounts[":id"]["$delete"]({
+            const response = await client.api.categories[":id"]["$delete"]({
                 param: { id },
             });
 
@@ -25,13 +25,13 @@ export const useDeleteAccount = (id?: string) => {
         },
         onSuccess: () => {
             // Optionally invalidate or update queries after mutation success
-            toast.success("Account deleted")
-            queryClient.invalidateQueries({ queryKey: ["accounts", { id }]}); 
-            queryClient.invalidateQueries({ queryKey: ["accounts"]}); 
+            toast.success("Category deleted")
+            queryClient.invalidateQueries({ queryKey: ["category", { id }]}); 
+            queryClient.invalidateQueries({ queryKey: ["categories"]}); 
 
         },
         onError: () => {
-            toast.error("Failed to delete account")
+            toast.error("Failed to delete category")
         }
     });
 

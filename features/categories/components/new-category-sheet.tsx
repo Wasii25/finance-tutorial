@@ -1,12 +1,10 @@
 import { z } from "zod";
 
-import { insertAccountSchema } from "@/db/schema";
+import { insertCategorySchema } from "@/db/schema";
 
-import { useCreateAccount } from "@/features/accounts/api/use-create-account";
-import { AccountForm } from "@/features/accounts/components/account-form";
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account"
-import { useAccount } from "@/features/accounts/hooks/use-account"
-
+import { useCreateCategory } from "@/features/categories/api/use-create-category";
+import { useNewCategory } from "@/features/categories/hooks/use-new-category";
+import { CategoryForm } from "@/features/categories/components/category-form";
 
 import {
     Sheet,
@@ -16,13 +14,13 @@ import {
     SheetTitle,
   } from "@/components/ui/sheet"
 
-const formSchema = insertAccountSchema.pick({ name: true });
+const formSchema = insertCategorySchema.pick({ name: true });
 type FormValues = z.infer<typeof formSchema>;
 
-export const EditAccountSheet = () => {
-    const { isOpen, onClose, id } = useOpenAccount()
-    const { data: account } = useAccount(id)
-    const mutation = useCreateAccount();
+export const NewCategorySheet = () => {
+    const { isOpen, onClose } = useNewCategory()
+
+    const mutation = useCreateCategory();
 
     const onSubmit = (values: FormValues) => {
         const validated = formSchema.parse(values);
@@ -33,28 +31,23 @@ export const EditAccountSheet = () => {
         });
     }
 
-    const defaultValues = account ? {
-        name: account.name
-    } : {
-        name: ""
-    }
-
-
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent className="space-y-4">
                 <SheetHeader>
                     <SheetTitle>
-                        New Account
+                        New Category
                     </SheetTitle>
                     <SheetDescription>
-                        Create a new account to track your transactions
+                        Create a new category to track your transactions
                     </SheetDescription>
                 </SheetHeader>
-                <AccountForm
+                <CategoryForm
                     onSubmit={onSubmit}
                     disable={mutation.isPending}
-                    defaultValues={defaultValues}
+                    defaultValues={{
+                        name: "",
+                    }}
 
                 />
             </SheetContent>

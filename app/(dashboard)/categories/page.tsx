@@ -12,9 +12,9 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
-import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete";
+import { useGetCategories } from "@/features/categories/api/use-get-categories";
+import { useNewCategory } from "@/features/categories/hooks/use-new-category";
+import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-delete-categories";
 
 //classes for datatable
 import { columns } from "./columns"
@@ -22,17 +22,17 @@ import { columns } from "./columns"
 
 
 const CategoriesPage = () => {
-    const newAccouunt = useNewAccount();
-    const accountsQuery = useGetAccounts();
-    const accounts = accountsQuery.data || [];
-    const deleteAccounts = useBulkDeleteAccounts()
+    const newAccouunt = useNewCategory();
+    const categoriesQuery = useGetCategories();
+    const categories = categoriesQuery.data || [];
+    const deleteCategories = useBulkDeleteCategories()
 
     const isDisabled = 
-        accountsQuery.isLoading ||
-        deleteAccounts.isPending;
+        categoriesQuery.isLoading ||
+        deleteCategories.isPending;
 
 
-    if(accountsQuery.isLoading){
+    if(categoriesQuery.isLoading){
         return (
             <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
                 <Card className="border-none drop-shadow-sm">
@@ -67,11 +67,11 @@ const CategoriesPage = () => {
                 <CardContent>
                     <DataTable 
                     columns={columns} 
-                    data={accounts} 
+                    data={categories} 
                     filterKey={"name"}
                     onDeleteAction={(row) => {
                         const ids = row.map((r) => r.original.id);
-                        deleteAccounts.mutate({ json: { ids } });
+                        deleteCategories.mutate({ json: { ids } });
                     }}
                     disabled={isDisabled}
                     />

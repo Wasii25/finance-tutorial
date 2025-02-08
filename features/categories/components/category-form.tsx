@@ -5,21 +5,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { insertAccountSchema } from "@/db/schema";
+import { insertCategorySchema } from "@/db/schema";
 import { 
     Form,
     FormControl,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
 } from "@/components/ui/form";
 
 // defining our form schema
-const formSchema = insertAccountSchema.pick({
+const formSchema = insertCategorySchema.pick({
     name: true,
 });
-//The above form only is for creating the name of the accounts. 
+//The above form only is for creating the name of the categories. 
 // That will now be converted to form values
 
 type FormValues = z.input<typeof formSchema>;
@@ -34,7 +33,7 @@ type props = {
     //key without question mark is mandatory
 };
 
-export const AccountForm = ({
+export const CategoryForm = ({
     id,
     defaultValues,
     onSubmit,
@@ -67,7 +66,7 @@ export const AccountForm = ({
                             <FormControl>
                                 <Input
                                     disabled={disabled}
-                                    placeholder="e.g.Cash, Bank, Credit Card"
+                                    placeholder="e.g.Food, Travel, etc."
                                     {...field}
                                 />
                             </FormControl>
@@ -75,7 +74,7 @@ export const AccountForm = ({
                     )}
                 />
                 <Button className="w-full disabled:{disabled}">
-                    {id ?  "Save Changes" : "Create Account"}
+                    {id ?  "Save Changes" : "Create Category"}
                 </Button>
                 {!!id && <Button
                 //!!id converts id to boolean
@@ -86,7 +85,7 @@ export const AccountForm = ({
                     variant="outline"
                 >
                     <Trash className="size-4 mr-2"/>
-                    Delete Account
+                    Delete Category
                 </Button>}
             </form>
         </Form>

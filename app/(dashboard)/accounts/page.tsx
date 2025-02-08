@@ -14,7 +14,7 @@ import {
 
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
-import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete";
+import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
 
 //classes for datatable
 import { columns } from "./columns"
