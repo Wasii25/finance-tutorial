@@ -1,5 +1,5 @@
 "use client";
-
+//this page is for the data table component in actions page the export const returns the fields likle checkbox, name etc in the table that shows accounts
 import { InferResponseType } from "hono";
 import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
@@ -7,10 +7,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { client } from "@/lib/hono";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Actions } from "./Actions";
 
 export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
 
 export const columns: ColumnDef<ResponseType>[] = [
+  //checkbox for selection
   {
     id: "select",
     header: ({ table }) => (
@@ -33,6 +35,7 @@ export const columns: ColumnDef<ResponseType>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+  //name field
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -46,5 +49,9 @@ export const columns: ColumnDef<ResponseType>[] = [
         </Button>
       )
     },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <Actions id={ row.original.id} />
   },
 ]

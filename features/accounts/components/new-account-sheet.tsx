@@ -13,11 +13,9 @@ import {
     SheetHeader,
     SheetTitle,
   } from "@/components/ui/sheet"
-const formSchema = insertAccountSchema.pick({
-    name: true,
-});
 
-type FormValues = z.input<typeof formSchema>;
+const formSchema = insertAccountSchema.pick({ name: true });
+type FormValues = z.infer<typeof formSchema>;
 
 export const NewAccountSheet = () => {
     const { isOpen, onClose } = useNewAccount()
@@ -25,7 +23,8 @@ export const NewAccountSheet = () => {
     const mutation = useCreateAccount();
 
     const onSubmit = (values: FormValues) => {
-        mutation.mutate(values, {
+        const validated = formSchema.parse(values);
+        mutation.mutate(validated, {
             onSuccess: () => {
                 onClose();
             }
