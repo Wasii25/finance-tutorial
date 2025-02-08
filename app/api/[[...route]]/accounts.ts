@@ -15,9 +15,8 @@ const app = new Hono()
         //Above clerk middleware is to let only the authenticated users access the api
         async (c) => {
             const auth = getAuth(c);
-
             if(!auth?.userId){
-                 return c.json({ error: "Unauthorised"}, 401)
+                 return c.json({ error: "Unauthorized"}, 401)
             }
             
 
@@ -85,7 +84,7 @@ const app = new Hono()
             const values = c.req.valid("json");
     
             if (!auth?.userId) {
-                return c.json({ error: "Unauthorised" }, 401);
+                return c.json({ error: "Unauthorized" }, 401);
             }
     
             const [data] = await db.insert(accounts).values({
