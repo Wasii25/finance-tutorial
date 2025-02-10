@@ -74,7 +74,7 @@ const app = new Hono()
     .post(
         "/",
         clerkMiddleware(),
-        zValidator("json", insertCategorySchema.omit({
+        zValidator("json", insertCategorySchema.pick({
             plaidId: true,
             id: true,
             userId: true,
