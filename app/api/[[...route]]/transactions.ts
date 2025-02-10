@@ -14,6 +14,7 @@ import {
 } from "@/db/schema";
 
 const app = new Hono()
+    //below is the get all api route
     .get(
         "/",
         zValidator("query", z.object({
@@ -23,6 +24,8 @@ const app = new Hono()
         })),
         clerkMiddleware(),
         //Above clerk middleware is to let only the authenticated users access the api
+
+        //below async (c) where c is the coontroller
         async (c) => {
             const auth = getAuth(c);
             const { from, to, accountId } = c.req.valid("query");
@@ -70,6 +73,7 @@ const app = new Hono()
         return c.json({ data });
         }
     )
+    //below is the get individual api route
     .get(
         "/:id",
         zValidator("param", z.object({
@@ -116,7 +120,7 @@ const app = new Hono()
             return c.json({ data });
         }
     )
-
+    //the below route is to create  individual
     .post(
         "/",
         clerkMiddleware(),
@@ -140,6 +144,7 @@ const app = new Hono()
             return c.json({ data });
         }
     )
+    //below route is to bulk delete
     .post(
         "/bulk-delete",
         clerkMiddleware(),
@@ -180,7 +185,40 @@ const app = new Hono()
             return c.json({ data });
         }
     )
-    
+    //belowo route is to bulk create transactions (only used in the transactions page)
+    .post(
+        "/bulk-create",
+        clerkMiddleware(),
+        zValidator(
+            "json",
+            z.array(
+                insertTransactionSchema.omit({
+                    id: true,
+                })
+            ),
+        ),
+
+        async (c) => {
+            const auth = getAuth(c);
+            const values = c.req.valid("json");
+
+            if(!auth?.userId) {
+                return c.json({ eror: "Unauthorized "}, 401);
+            }
+
+            const data = await db
+            .insert(transactions)
+            .values(
+                values.map((value) => ({
+                    id: createId(),
+                    ...value,
+                }))
+            )
+            .returning();
+
+            return c.json({ data });
+        },
+    )
     .patch(
         "/:id",
         clerkMiddleware(),
