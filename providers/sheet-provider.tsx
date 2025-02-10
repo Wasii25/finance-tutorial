@@ -8,6 +8,8 @@ import { EditAccountSheet } from "@/features/accounts/components/edit-account-sh
 import { NewCategorySheet } from "@/features/categories/components/new-category-sheet";
 import { EditCategorySheet } from "@/features/categories/components/edit-category-sheet";
 
+import { NewTransactionsheet } from "@/features/transactions/components/new-transaction-sheet";
+
 export const SheetProvider = () => {
   const isMounted = useMountedState(); // This ensures the component only runs on the client
 
@@ -20,6 +22,8 @@ export const SheetProvider = () => {
 
       <NewCategorySheet />
       <EditCategorySheet />
+
+      <NewTransactionsheet />
     </>
   );
 };
