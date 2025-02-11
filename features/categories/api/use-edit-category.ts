@@ -21,8 +21,11 @@ export const useEditCategory = (id?: string) => {
                 json,
             });
 
-            // Add type assertion for the response
-            const data = (await response.json()) as ResponseType;
+            if (!response.ok) {
+                throw new Error('Failed to update category');
+            }
+
+            const data = await response.json();
             return data;
         },
         onSuccess: () => {
