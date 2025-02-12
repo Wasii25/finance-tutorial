@@ -19,7 +19,6 @@ import { Select } from "@/components/select";
 import { DatePicker } from "@/components/date-picker";
 import { AmountInput } from "@/components/amount-input";
 import {
-    convertAmountFromMilliUnit,
   convertAmountToMilliUnits,
 } from "@/lib/utils";
 
@@ -162,11 +161,11 @@ export const TransactionForm = ({
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <AmountInput
+                <AmountInput 
                   disabled={disabled}
-                  {...field}
+                  value={field.value || ''}
+                  onChange={field.onChange}
                   placeholder="0.00"
-                  onChangeAction={() => {}}
                 />
               </FormControl>
               <FormMessage />

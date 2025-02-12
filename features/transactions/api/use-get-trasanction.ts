@@ -1,24 +1,26 @@
-//This page is for sending the api schema or throwing the error, basically hooks
 import { useQuery } from "@tanstack/react-query";
+
 import { client } from "@/lib/hono";
+import { convertAmountFromMilliUnit } from "@/lib/utils";
 
-export const useGetTransaction = (id?: string) => {
-    const query = useQuery({
-        enabled: !!id,
-        queryKey: ['transaction', { id }],
-        queryFn: async () => {
-            const response = await client.api.transactions[":id"].$get({
-                param: { id },
-            });
+const useGetTransaction = (id?: string) => {
+  const query = useQuery({
+    enabled: !!id,
+    queryKey: ["transaction", { id }],
+    queryFn: async () => {
+      const res = await client.api.transactions[":id"].$get({ param: { id } });
+      if (!res.ok) {
+        throw new Error("Failed to fetch transaction");
+      }
+      const { data } = await res.json();
 
-            if(!response.ok){
-                throw new Error("Failed to fetch individual transaction");
-            }
-
-            const { data } = await response.json();
-            return data;
-        },
-    });
-
-    return query;
+      return {
+        ...data,
+        amount: convertAmountFromMilliUnit(data.amount),
+      };
+    },
+  });
+  return query;
 };
+
+export default useGetTransaction;

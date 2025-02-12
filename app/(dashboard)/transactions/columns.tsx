@@ -1,18 +1,26 @@
 "use client";
-//this page is for the data table component in actions page the export const returns the fields likle checkbox, name etc in the table that shows accounts
-import { InferResponseType } from "hono";
+// icons
 import { ArrowUpDown } from "lucide-react";
-import { ColumnDef } from "@tanstack/react-table";
-
-import { client } from "@/lib/hono";
+// components
 import { Button } from "@/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Actions } from "./Actions";
 
-export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0];
+import { InferResponseType } from "hono";
+import { client } from "@/lib/hono";
+import { Actions } from "./Actionsx";
+import { formatDate } from "date-fns";
+import { formatCurrency } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { AccountColumn } from "./account-column";
+import { CategoryColumn } from "./category-column";
+
+export type ResponseType = InferResponseType<
+  typeof client.api.transactions.$get,
+  200
+>["data"][0];
 
 export const columns: ColumnDef<ResponseType>[] = [
-  //checkbox for selection
   {
     id: "select",
     header: ({ table }) => (
@@ -35,23 +43,112 @@ export const columns: ColumnDef<ResponseType>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  //name field
   {
-    accessorKey: "name",
+    accessorKey: "date",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          Date
+          <ArrowUpDown className="ml-2 size-4" />
         </Button>
-      )
+      );
+    },
+    cell: ({ row }) => {
+      const date = row.getValue("date") as Date;
+      return <span>{formatDate(date, "dd MMMM, yyyy")}</span>;
+    },
+  },
+  {
+    accessorKey: "category",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 size-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <CategoryColumn
+          id={row.original.id}
+          category={row.original.category}
+          categoryId={row.original.categoryId}
+        />
+      );
+    },
+  },
+  {
+    accessorKey: "payee",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Payee
+          <ArrowUpDown className="ml-2 size-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "amount",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Amount
+          <ArrowUpDown className="ml-2 size-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const amount = row.getValue("amount") as number;
+      return (
+        <Badge
+          variant={amount > 0 ? "primary" : "destructive"}
+          className="text-sm font-medium px-3.5 py-1.5"
+        >
+          {formatCurrency(amount)}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "account",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Account
+          <ArrowUpDown className="ml-2 size-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <AccountColumn
+          account={row.original.account}``
+          accountId={row.original.accountId}
+        />
+      );
     },
   },
   {
     id: "actions",
-    cell: ({ row }) => <Actions id={ row.original.id} />
+    cell: ({ row }) => {
+      return <Actions id={row.original.id} />;
+    },
   },
-]
+];

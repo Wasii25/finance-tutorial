@@ -1,39 +1,34 @@
-import { toast } from "sonner";
-import { InferResponseType } from "hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import {  InferResponseType } from "hono";
 import { client } from "@/lib/hono";
+import { toast } from "sonner";
 
-type ResponseType = InferResponseType<typeof client.api.transactions[":id"]["patch"]>;
+type ResponseType = InferResponseType<
+  (typeof client.api.transactions)[":id"]["$delete"]
+>;
 
 export const useDeleteTransaction = (id?: string) => {
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation<ResponseType, Error>({
-        mutationFn: async () => {
-            if (!id) {
-                throw new Error("Transaction ID is required");
-            }
-            
-            const response = await client.api.transactions[":id"]["$delete"]({
-                param: { id },
-            });
-
-            // Add type assertion for the response
-            const data = (await response.json()) as ResponseType;
-            return data;
-        },
-        onSuccess: () => {
-            // Optionally invalidate or update queries after mutation success
-            toast.success("Transaction deleted")
-            queryClient.invalidateQueries({ queryKey: ["transaction", { id }]}); 
-            queryClient.invalidateQueries({ queryKey: ["transactions"]}); 
-
-        },
-        onError: () => {
-            toast.error("Failed to delete transaction")
-        }
-    });
-
-    return mutation;
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation<ResponseType, Error>({
+    mutationFn: async () => {
+      const res = await client.api.transactions[":id"]["$delete"]({
+        param: { id },
+      });
+      if (!res.ok) {
+        throw new Error("Failed to remove transaction");
+      }
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["transaction", { id }] });
+      queryClient.invalidateQueries({ queryKey: ["summary"] });
+      toast.success("Transaction deleted");
+    },
+    onError: () => {
+      toast.error("Failed to remove transaction");
+    },
+  });
+  return deleteMutation;
 };
+

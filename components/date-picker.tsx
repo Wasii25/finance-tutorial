@@ -41,7 +41,7 @@ export const DatePicker = ({value, onChange, disabled}: Props) => {
             </PopoverTrigger>
             <PopoverContent className="w-auto pointer-events-auto p-0">
                 <Calendar
-                    mode="single"   x   
+                    mode="single"   
                     defaultMonth={value}
                     selected={value}
                     onSelect={onChange}

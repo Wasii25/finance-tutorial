@@ -12,8 +12,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
+import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
 
 //classes for datatable
@@ -22,7 +22,7 @@ import { columns } from "./columns"
 
 
 const TransactionsPage = () => {
-    const newAccouunt = useNewTransaction();
+    const newTransaction = useNewTransaction();
     const transactionsQuery = useGetTransactions();
     const transactions = transactionsQuery.data || [];
     const deleteTransactions = useBulkDeleteTransactions()
@@ -59,7 +59,7 @@ const TransactionsPage = () => {
                         Transaction History
                     </CardTitle>
                     
-                    <Button onClick={newAccouunt.onOpen} className="siz-sm">
+                    <Button onClick={newTransaction.onOpen} className="siz-sm">
                         <Plus className="size-4 mr-2"/>
                         Add new
                     </Button>
